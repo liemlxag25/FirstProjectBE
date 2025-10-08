@@ -1,0 +1,111 @@
+# Hướng Dẫn Tạo Dự Án Quản Lý Nhân Viên (Express, TypeScript, MongoDB, EJS, Bootstrap)
+
+Dự án sử dụng Express, TypeScript, MongoDB, EJS, Bootstrap, URL gốc `/`, đẩy lên GitHub. Dưới đây là các bước khởi tạo từ thư mục trống.
+
+## 1. Khởi tạo dự án
+- Tạo thư mục và khởi tạo Node.js:
+  ```bash
+  cd D:\BEC\WorkSpace\FirstProjBE
+  npm init -y
+  ```
+
+## 2. Cài đặt dependencies
+- Cài các package cần thiết:
+  ```bash
+  npm install express ejs mongoose
+  npm install --save-dev typescript ts-node nodemon @types/express @types/ejs @types/mongoose @types/node
+  ```
+
+## 3. Tạo `tsconfig.json`
+- Khởi tạo cấu hình TypeScript:
+  ```bash
+  npx tsc --init
+  ```
+- Sửa `tsconfig.json`:
+  - `outDir: "./dist"`
+  - `rootDir: "./src"`
+  - `strict: true`
+  - `esModuleInterop: true`
+
+## 4. Cập nhật `package.json`
+- Thêm scripts:
+  ```json
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "dev": "nodemon src/index.ts"
+  }
+  ```
+
+## 5. Tạo cấu trúc thư mục
+- Tạo các thư mục:
+  ```bash
+  mkdir src src/models src/controllers src/routes src/views
+  ```
+
+## 6. Tạo các file chính
+- **`index.ts`**: 
+  - Thiết lập Express, kết nối MongoDB, cấu hình EJS, middleware `express.urlencoded`, route gốc `/`, lắng nghe port 3000.
+- **`models/nhanvien.ts`**:
+  - Interface `NhanVien` (id, ten, tuoi, chucvu), schema MongoDB, export model.
+- **`controllers/nhanVienController.ts`**:
+  - Các hàm `static async` (`getList`, `getAdd`, `postAdd`, `getEdit`, `postEdit`, `postDelete`) xử lý CRUD với MongoDB.
+- **`routes/nhanVien.ts`**:
+  - Route cho `/`, `/add`, `/edit/:id`, `/delete/:id`, gọi hàm từ controller.
+- **`views/list.ejs`**:
+  - Bảng danh sách nhân viên, dùng Bootstrap.
+- **`views/add.ejs`**:
+  - Form thêm nhân viên, dùng Bootstrap.
+- **`views/edit.ejs`**:
+  - Form sửa nhân viên, dùng Bootstrap.
+
+## 7. Khởi tạo Git
+- Khởi tạo Git và tạo `.gitignore`:
+  ```bash
+  git init
+  echo node_modules/ > .gitignore
+  echo dist/ >> .gitignore
+  echo .env >> .gitignore
+  git add .
+  git commit -m "Initial commit"
+  ```
+
+## 8. Tạo repository trên GitHub
+- Truy cập `https://github.com`, tạo repository `FirstProjectBE` (không chọn "Initialize with README").
+
+## 9. Đẩy lên GitHub
+- Liên kết và đẩy code:
+  ```bash
+  git remote add origin https://github.com/liemlxag25/FirstProjectBE.git
+  git push -u origin main
+  ```
+
+## 10. Chạy MongoDB
+- Cục bộ:
+  ```bash
+  mongod
+  ```
+- Hoặc dùng MongoDB Atlas URI trong `index.ts`.
+
+## 11. Chạy dự án
+- Build và chạy:
+  ```bash
+  npm run build
+  npm start
+  ```
+- Hoặc chạy dev:
+  ```bash
+  npm run dev
+  ```
+
+## 12. Kiểm tra
+- Truy cập:
+  - `http://localhost:3000/` (danh sách)
+  - `http://localhost:3000/add` (thêm)
+  - `http://localhost:3000/edit/1` (sửa)
+
+## Lưu ý
+- Đảm bảo MongoDB chạy (`mongodb://localhost:27017/nhanvien_db`).
+- URL gốc `/` (không có `/nhanvien`).
+- Kiểm tra thư mục `src/views` có `list.ejs`, `add.ejs`, `edit.ejs`.
+- Nếu lỗi kết nối MongoDB hoặc render EJS, kiểm tra console hoặc cấu hình.
